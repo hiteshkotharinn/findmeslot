@@ -13,7 +13,6 @@
 **/.ssh
 **/.aws
 **/node_modules
-**/dist
 .vscode
 .terraform
 .m2
