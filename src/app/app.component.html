@@ -1,0 +1,56 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <h4 style="text-decoration: underline;">FindMeSlot&nbsp;</h4>
+    <div id="center-div">
+      <div *ngIf="!online" class="bubble">
+        <span class="bubble-outer-dot">
+        <span class="bubble-inner-dot"></span>
+        </span>
+      </div>
+      <div *ngIf="online" class="bubble-online">
+        <span class="bubble-online-outer-dot">
+        <span class="bubble-online-inner-dot"></span>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12 col-xl-12">
+      <div class="card bg-pattern">
+        <div class="card-body p-4">
+          <label style="font-size: 16px;">Select Date and District :</label>
+          <div class="col-md-12 col-lg-12 col-xl-12">
+            <div class="input-group">
+              <input type="date" class="form-control" name="currentDate" [value]="currentDate" (change)="date($event)">
+              <select class="form-control" name="cars" id="cars">
+                <option value="volvo">Buldhana</option>
+              </select>
+            </div>
+          </div>
+          <table class="mt-2 table">
+            <thead>
+              <th>Center</th>
+              <th>Vaccine Name</th>
+              <th>Age</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let group of availableSlot">
+                <td>{{group.name}} - <b>{{group.pincode}}</b></td>
+                <td>{{group?.sessions[0].vaccine}}</td>
+                <td>{{group?.sessions[0].min_age_limit}}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="!availableSlot[0]">
+              <tr>
+                <td colspan="3" style="text-align: center;"><b>Slot Not Available</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="mt-4">Developed By - Hitesh Kothari</p>      
+  </div>
+</div>
+
+<audio #audioOption>
+  <source src='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' type="audio/mp3">
+</audio>
