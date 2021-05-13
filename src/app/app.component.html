@@ -38,12 +38,16 @@
           </table>
         </div>
       </div>
-      <div class="eHijbr kbWEyx mt-5">
+      <div *ngIf="mobile" class="mb-4">
+        <div class="YINnv mt-5" style="margin-left: auto; margin-right: auto;"></div>
+        <span>Last update from CoWIN - {{lastUpdateOn | date:'medium'}}</span>
+      </div>
+      <div *ngIf="!mobile" class="eHijbr kbWEyx mt-5 mb-4">
         <div class="YINnv"></div><span>Last update from CoWIN - {{lastUpdateOn | date:'medium'}}</span>
       </div>
     </div>
   </div>
-  <div class="col-md-12" style="text-align: center;">
+  <div class="col-md-12 jumbotron" style="text-align: center;">
     <strong>Disclaimer:</strong> This web app uses CoWin open API to make it easy for you to find slots. Availability
     changes in real time. So book your slot ASAP using <a
       href="https://selfregistration.cowin.gov.in">https://selfregistration.cowin.gov.in</a>.<br>

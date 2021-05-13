@@ -17,12 +17,16 @@ export class AppComponent implements OnInit {
   currentDate: any;
   online: boolean = false;
   lastUpdateOn:any;
+  mobile:boolean = false;
 
   constructor(
     private http: HttpClient) {
   }
 
   ngOnInit() {
+    if (window.screen.width < 600) { // 768px portrait
+      this.mobile = true;
+    }
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
