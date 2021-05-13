@@ -34,7 +34,7 @@
             </tbody>
             <tbody *ngIf="!availableSlot[0]">
               <tr>
-                <td colspan="3" style="text-align: center;color: rgb(201, 78, 78);"><b>Slot Not Available</b></td>
+                <td colspan="4" style="text-align: center;color: rgb(201, 78, 78);"><b>Slot Not Available</b></td>
               </tr>
             </tbody>
           </table>
@@ -42,6 +42,7 @@
       </div>
       <div style="text-align: center;" *ngIf="mobile" class="mb-4">
         <div class="YINnv mt-5" style="margin-left: auto; margin-right: auto;"></div>
+        <br>
         <span>Last update from CoWIN - {{lastUpdateOn | date:'medium'}}</span>
       </div>
       <div *ngIf="!mobile" class="eHijbr kbWEyx mt-5 mb-4">
