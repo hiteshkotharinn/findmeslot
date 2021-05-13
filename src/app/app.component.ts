@@ -111,7 +111,7 @@ export class AppComponent implements OnInit {
 
   getSlotService(dt: any) {
     let date = new DatePipe('en-US').transform(dt, 'dd-MM-yyyy')
-    return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=555&date=" + date);
+    return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=367&date=" + date);
   }
 
   date(ev: any) {
