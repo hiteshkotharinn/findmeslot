@@ -16,8 +16,11 @@ export class AppComponent implements OnInit {
   availableSlot = [];
   currentDate: any;
   online: boolean = false;
-  lastUpdateOn:any;
-  mobile:boolean = false;
+  lastUpdateOn: any;
+  mobile: boolean = false;
+  allSessions = [];
+  allSessionsDetails = [];
+  nextWeekDate: any;
 
   constructor(
     private http: HttpClient) {
@@ -29,19 +32,21 @@ export class AppComponent implements OnInit {
     }
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    this.currentDate = tomorrow.toISOString().split('T')[0];;
-    //console.log(tomorrow)
-    //this.currentDate = new Date().toISOString().split('T')[0];
-    this.getSlotData();
+    tomorrow.setDate(tomorrow.getDate() + 7);
+    this.nextWeekDate = tomorrow.toISOString().split('T')[0];
+    // console.log(tomorrow)
+    this.currentDate = new Date().toISOString().split('T')[0];
+    this.getSlotData(this.currentDate);
+    this.getSlotData(this.nextWeekDate);
     this.id = setInterval(() => {
-      this.getSlotData();
+      this.getSlotData(this.currentDate);
+      this.getSlotData(this.nextWeekDate);
     }, 5000);
   }
 
-  getSlotData() {
+  getSlotData(dt: any) {
     this.centerData = [];
-    this.getSlotService().subscribe(
+    this.getSlotService(dt).subscribe(
       response => {
         if (response) {
           this.online = true;
@@ -69,14 +74,28 @@ export class AppComponent implements OnInit {
   }
 
   findSlot(data: any) {
-    this.availableSlot = data.filter(function (el) {
-      return el.sessions[0].available_capacity > 0
-      // &&
-      //        el.sqft >= 500 &&
-      //        el.num_of_beds >=2 &&
-      //        el.num_of_baths >= 2.5;
+    this.allSessions = [];
+    this.allSessionsDetails = [];
+    this.availableSlot = [];
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].sessions.length; j++) {
+        // console.log(data[i].sessions[j])
+        this.allSessions.push(data[i].sessions[j])
+        this.allSessionsDetails.push(data[i]);
+      }
+    }
+    //console.log(this.allSessionsDetails);
+
+    this.availableSlot = this.allSessionsDetails.filter(function (el) {
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].sessions.length; j++) {
+          return el.sessions[j].available_capacity > 0
+        }
+      }
     });
+
     //console.log(this.availableSlot)
+
     if (this.availableSlot.length > 0) {
       this.onAudioPlay()
     } else {
@@ -90,9 +109,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  getSlotService() {
-    let date = new DatePipe('en-US').transform(this.currentDate, 'dd-MM-yyyy')
-    return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=367&date=" + date);
+  getSlotService(dt: any) {
+    let date = new DatePipe('en-US').transform(dt, 'dd-MM-yyyy')
+    return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=555&date=" + date);
   }
 
   date(ev: any) {

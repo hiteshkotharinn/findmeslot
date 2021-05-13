@@ -2,16 +2,16 @@
   <div class="row justify-content-center">
     <div style="text-align: center;">
       <h4 style="text-decoration: underline; color: #4CAF50; font-weight: bolder;">NotifyMe</h4>
-      <hr class="head">
+      <!-- <hr class="head"> -->
       <p>Search for vaccination slots • Get notified when available</p>
     </div>
     <div class="col-md-12 col-lg-12 col-xl-12">
       <div class="card bg-pattern">
         <div class="card-body p-4">
-          <label style="font-size: 16px;">Select Date and District :</label>
+          <label style="font-size: 16px;">Select District :</label>
           <div class="col-md-12 col-lg-12 col-xl-12">
             <div class="input-group">
-              <input type="date" class="form-control" name="currentDate" [value]="currentDate" (change)="date($event)">
+              <!-- <input type="date" class="form-control" name="currentDate" [value]="currentDate" (change)="date($event)"> -->
               <select class="form-control" name="cars" id="cars">
                 <option value="volvo">Buldhana</option>
               </select>
@@ -19,15 +19,17 @@
           </div>
           <table class="mt-2 mb-2 table">
             <thead>
+              <th>Date</th>
               <th>Center</th>
               <th>Vaccine Name</th>
               <th>Age</th>
             </thead>
             <tbody>
-              <tr *ngFor="let group of availableSlot">
+              <tr *ngFor="let group of availableSlot; let i = index">
+                <td>{{allSessions[i]?.date}}</td>
                 <td>{{group.name}} - <b>{{group.pincode}}</b></td>
-                <td>{{group?.sessions[0].vaccine}}</td>
-                <td>{{group?.sessions[0].min_age_limit}}+</td>
+                <td>{{allSessions[i]?.vaccine}}</td>
+                <td>{{allSessions[i]?.min_age_limit}}+</td>
               </tr>
             </tbody>
             <tbody *ngIf="!availableSlot[0]">
