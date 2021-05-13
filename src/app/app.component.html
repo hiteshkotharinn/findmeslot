@@ -1,17 +1,9 @@
 <div class="container mt-5 mb-5">
   <div class="row justify-content-center">
-    <h4 style="text-decoration: underline;">NotifyMe&nbsp;</h4>
-    <div id="center-div">
-      <div *ngIf="!online" class="bubble">
-        <span class="bubble-outer-dot">
-        <span class="bubble-inner-dot"></span>
-        </span>
-      </div>
-      <div *ngIf="online" class="bubble-online">
-        <span class="bubble-online-outer-dot">
-        <span class="bubble-online-inner-dot"></span>
-        </span>
-      </div>
+    <div style="text-align: center;">
+      <h4 style="text-decoration: underline; color: #4CAF50; font-weight: bolder;">NotifyMe</h4>
+      <hr class="head">
+      <p>Search for vaccination slots • Get notified when available</p>
     </div>
     <div class="col-md-12 col-lg-12 col-xl-12">
       <div class="card bg-pattern">
@@ -25,7 +17,7 @@
               </select>
             </div>
           </div>
-          <table class="mt-2 table">
+          <table class="mt-2 mb-2 table">
             <thead>
               <th>Center</th>
               <th>Vaccine Name</th>
@@ -35,19 +27,27 @@
               <tr *ngFor="let group of availableSlot">
                 <td>{{group.name}} - <b>{{group.pincode}}</b></td>
                 <td>{{group?.sessions[0].vaccine}}</td>
-                <td>{{group?.sessions[0].min_age_limit}}</td>
+                <td>{{group?.sessions[0].min_age_limit}}+</td>
               </tr>
             </tbody>
             <tbody *ngIf="!availableSlot[0]">
               <tr>
-                <td colspan="3" style="text-align: center;"><b>Slot Not Available</b></td>
+                <td colspan="3" style="text-align: center;color: rgb(201, 78, 78);"><b>Slot Not Available</b></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      <div class="eHijbr kbWEyx mt-5">
+        <div class="YINnv"></div><span>Last update from CoWIN - {{lastUpdateOn | date:'medium'}}</span>
+      </div>
     </div>
-    <p class="mt-4">Developed By - Hitesh Kothari</p>      
+  </div>
+  <div class="col-md-12" style="text-align: center;">
+    <strong>Disclaimer:</strong> This web app uses CoWin open API to make it easy for you to find slots. Availability
+    changes in real time. So book your slot ASAP using <a
+      href="https://selfregistration.cowin.gov.in">https://selfregistration.cowin.gov.in</a>.<br>
+    <br>For any support <a target="_blank" href="https://www.linkedin.com/in/hiteshkotharinn">@hiteshkotharinn</a>
   </div>
 </div>
 

@@ -16,13 +16,19 @@ export class AppComponent implements OnInit {
   availableSlot = [];
   currentDate: any;
   online: boolean = false;
+  lastUpdateOn:any;
 
   constructor(
     private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.currentDate =  new Date().toISOString().split('T')[0];
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    this.currentDate = tomorrow.toISOString().split('T')[0];;
+    //console.log(tomorrow)
+    //this.currentDate = new Date().toISOString().split('T')[0];
     this.getSlotData();
     this.id = setInterval(() => {
       this.getSlotData();
@@ -35,18 +41,20 @@ export class AppComponent implements OnInit {
       response => {
         if (response) {
           this.online = true;
+          this.lastUpdateOn = new Date();
           let res = response.centers;
           // this.toastService.showSuccess("Welcome");
-          console.log(response.centers);
+          //console.log(response.centers);
           for (let i = 0; i < res.length; i++) {
             this.centerData.push(res[i]);
           };
         }
         this.findSlot(this.centerData);
-        console.log(this.centerData);
+        //console.log(this.centerData);
       },
       (error: HttpErrorResponse) => {
         this.online = false;
+        this.onAudioStop();
         if (error instanceof HttpErrorResponse) {
           console.log("Client-side error occured.");
         } else {
@@ -64,10 +72,10 @@ export class AppComponent implements OnInit {
       //        el.num_of_beds >=2 &&
       //        el.num_of_baths >= 2.5;
     });
-    console.log(this.availableSlot)
-    if(this.availableSlot.length > 0 ){
+    //console.log(this.availableSlot)
+    if (this.availableSlot.length > 0) {
       this.onAudioPlay()
-    }else{
+    } else {
       this.onAudioStop();
     }
   }
@@ -83,18 +91,18 @@ export class AppComponent implements OnInit {
     return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=367&date=" + date);
   }
 
-  date(ev:any){
+  date(ev: any) {
     this.currentDate = ev.target.value;
     console.log(ev.target.value)
   }
 
 
-onAudioPlay(){
-  this.audioPlayerRef.nativeElement.play();
-}
+  onAudioPlay() {
+    this.audioPlayerRef.nativeElement.play();
+  }
 
-onAudioStop(){
-  this.audioPlayerRef.nativeElement.pause();
-}
-  
+  onAudioStop() {
+    this.audioPlayerRef.nativeElement.pause();
+  }
+
 }
