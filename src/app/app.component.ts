@@ -37,10 +37,10 @@ export class AppComponent implements OnInit {
     // console.log(tomorrow)
     this.currentDate = new Date().toISOString().split('T')[0];
     this.getSlotData(this.currentDate);
-    this.getSlotData(this.nextWeekDate);
+    // this.getSlotData(this.nextWeekDate);
     this.id = setInterval(() => {
       this.getSlotData(this.currentDate);
-      this.getSlotData(this.nextWeekDate);
+      // this.getSlotData(this.nextWeekDate);
     }, 5000);
   }
 
