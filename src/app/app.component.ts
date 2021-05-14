@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
     if (window.screen.width < 600) { // 768px portrait
       this.mobile = true;
     }
-    this.openModal();
     // const today = new Date();
     // const tomorrow = new Date(today);
     // tomorrow.setDate(tomorrow.getDate() + 7);

@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div style="text-align: center;">
       <h4 style="text-decoration: underline; color: #4CAF50; font-weight: bolder;">NotifyMe</h4>
-      <p>Search for vaccination slots • Get notified when available</p>
+      <p>Search for vaccination slots • Get alertified when available</p>
     </div>
     <div class="col-md-12 col-lg-12 col-xl-12">
       <div class="card bg-pattern">
@@ -17,7 +17,7 @@
           </div>
           <div class="col-md-12 col-lg-12 col-xl-12 mt-3">
             <label style="font-size: 16px;">Select District :</label>
-            <select class="form-control" (change)="setDistrictValue($event);getSlotData()">
+            <select class="form-control" (change)="openModal();setDistrictValue($event);getSlotData()">
               <option value="">Select District</option>
               <option *ngFor="let district of districtList" value="{{district.district_id}}">{{district.district_name}}
               </option>
