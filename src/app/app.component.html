@@ -31,14 +31,14 @@
               <th>Age</th>
             </thead>
             <tbody>
-              <tr *ngFor="let group of availableSlot; let i = index">
-                <td>{{allSessions[i]?.date}}</td>
+              <tr *ngFor="let group of allSessionsDetails; let i = index">
+                <td>{{availableSlot[i]?.date}}</td>
                 <td>{{group.name}} - <b>{{group.pincode}}</b></td>
-                <td>{{allSessions[i]?.vaccine}}</td>
-                <td>{{allSessions[i]?.min_age_limit}}+</td>
+                <td>{{availableSlot[i]?.vaccine}}</td>
+                <td>{{availableSlot[i]?.min_age_limit}}+</td>
               </tr>
             </tbody>
-            <tbody *ngIf="!availableSlot[0]">
+            <tbody *ngIf="!allSessionsDetails[0]">
               <tr>
                 <td colspan="4" style="text-align: center;color: rgb(201, 78, 78);"><b>Slot Not Available</b></td>
               </tr>

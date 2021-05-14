@@ -87,25 +87,26 @@ export class AppComponent implements OnInit {
   }
 
   findSlot(data: any) {
-    this.allSessions = [];
+    //this.allSessions = [];
     this.allSessionsDetails = [];
     this.availableSlot = [];
+    let ids = [];
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].sessions.length; j++) {
-        // console.log(data[i].sessions[j])
-        this.allSessions.push(data[i].sessions[j])
-        this.allSessionsDetails.push(data[i]);
-      }
-    }
-    //console.log(this.allSessionsDetails);
-
-    this.availableSlot = this.allSessionsDetails.filter(function (el) {
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].sessions.length; j++) {
-          return el.sessions[j].available_capacity > 0
+        if(data[i].sessions[j].available_capacity > 0){
+          this.availableSlot.push(data[i].sessions[j])
+          ids.push(data[i].sessions[j].session_id)
         }
       }
-    });
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].sessions.length; j++) {
+        if (ids.includes(data[i].sessions[j].session_id)) {
+          this.allSessionsDetails.push(data[i])
+        }
+      }
+    }
 
     //console.log(this.availableSlot)
 
