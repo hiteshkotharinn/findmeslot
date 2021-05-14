@@ -1,16 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-
-let useTestSubdomain: boolean = window.location.hostname == 'test.domain.com';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -21,6 +16,7 @@ let useTestSubdomain: boolean = window.location.hostname == 'test.domain.com';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    NgbModule
   ],
   providers: [
   ],

@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-
-import { DatePipe } from '@angular/common';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AppService } from './app.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ubold',
@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   @ViewChild('audioOption', { static: true }) audioPlayerRef: ElementRef;
+  @ViewChild('sucess', { static: true }) sucess: ElementRef;
 
   id: any;
   centerData = [];
@@ -21,56 +22,69 @@ export class AppComponent implements OnInit {
   allSessions = [];
   allSessionsDetails = [];
   nextWeekDate: any;
+  stateList = [];
+  districtList = [];
+  selectedStateId: number;
+  selectedDistrictId: number;
+  modalReference: NgbModalRef;
 
   constructor(
-    private http: HttpClient) {
+    private appService: AppService,
+    private modalService: NgbModal) {
   }
 
   ngOnInit() {
     if (window.screen.width < 600) { // 768px portrait
       this.mobile = true;
     }
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 7);
-    this.nextWeekDate = tomorrow.toISOString().split('T')[0];
+    this.openModal();
+    // const today = new Date();
+    // const tomorrow = new Date(today);
+    // tomorrow.setDate(tomorrow.getDate() + 7);
+    // this.nextWeekDate = tomorrow.toISOString().split('T')[0];
     // console.log(tomorrow)
     this.currentDate = new Date().toISOString().split('T')[0];
-    this.getSlotData(this.currentDate);
-    // this.getSlotData(this.nextWeekDate);
+
+    this.getState();
+
     this.id = setInterval(() => {
-      this.getSlotData(this.currentDate);
-      // this.getSlotData(this.nextWeekDate);
+      this.getSlotData();
     }, 5000);
   }
 
-  getSlotData(dt: any) {
-    this.centerData = [];
-    this.getSlotService(dt).subscribe(
-      response => {
-        if (response) {
-          this.online = true;
-          this.lastUpdateOn = new Date();
-          let res = response.centers;
-          // this.toastService.showSuccess("Welcome");
-          //console.log(response.centers);
-          for (let i = 0; i < res.length; i++) {
-            this.centerData.push(res[i]);
-          };
+  setDistrictValue(event) {
+    this.selectedDistrictId = event.target.value;
+  }
+
+  getSlotData() {
+    if (this.selectedDistrictId != undefined && this.selectedDistrictId != null) {
+      this.centerData = [];
+      this.appService.getSlotService(this.currentDate, this.selectedDistrictId).subscribe(
+        response => {
+          if (response) {
+            this.online = true;
+            this.lastUpdateOn = new Date();
+            let res = response.centers;
+            // this.toastService.showSuccess("Welcome");
+            //console.log(response.centers);
+            for (let i = 0; i < res.length; i++) {
+              this.centerData.push(res[i]);
+            };
+          }
+          this.findSlot(this.centerData);
+          //console.log(this.centerData);
+        },
+        (error: HttpErrorResponse) => {
+          this.online = false;
+          this.onAudioStop();
+          if (error instanceof HttpErrorResponse) {
+            console.log("Client-side error occured.");
+          } else {
+            // this.toastService.ShowError(error);
+          }
         }
-        this.findSlot(this.centerData);
-        //console.log(this.centerData);
-      },
-      (error: HttpErrorResponse) => {
-        this.online = false;
-        this.onAudioStop();
-        if (error instanceof HttpErrorResponse) {
-          console.log("Client-side error occured.");
-        } else {
-          // this.toastService.ShowError(error);
-        }
-      }
-    );
+      );
+    }
   }
 
   findSlot(data: any) {
@@ -109,9 +123,49 @@ export class AppComponent implements OnInit {
     }
   }
 
-  getSlotService(dt: any) {
-    let date = new DatePipe('en-US').transform(dt, 'dd-MM-yyyy')
-    return this.http.get<any>("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id=367&date=" + date);
+  getState() {
+    this.appService.getStateList().subscribe(
+      response => {
+        if (response) {
+          this.stateList = response.states;
+          //console.log(this.stateList)
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.online = false;
+        this.onAudioStop();
+        if (error instanceof HttpErrorResponse) {
+          console.log("Client-side error occured.");
+        } else {
+          // this.toastService.ShowError(error);
+        }
+      }
+    );
+  }
+
+  getDistrict(event: any) {
+    this.onAudioStop();
+    this.districtList = [];
+    this.selectedDistrictId = null;
+    this.selectedStateId = event.target.value;
+    this.availableSlot = [];
+    this.appService.getDistrictList(this.selectedStateId).subscribe(
+      response => {
+        if (response) {
+          this.districtList = response.districts;
+          //console.log(this.districtList)
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.online = false;
+        this.onAudioStop();
+        if (error instanceof HttpErrorResponse) {
+          console.log("Client-side error occured.");
+        } else {
+          // this.toastService.ShowError(error);
+        }
+      }
+    );
   }
 
   date(ev: any) {
@@ -126,6 +180,10 @@ export class AppComponent implements OnInit {
 
   onAudioStop() {
     this.audioPlayerRef.nativeElement.pause();
+  }
+
+  openModal() {
+    this.modalReference = this.modalService.open(this.sucess, { centered: true });
   }
 
 }
