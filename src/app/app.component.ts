@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
     let ids = [];
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].sessions.length; j++) {
-        if(data[i].sessions[j].available_capacity > 0){
+        if (data[i].sessions[j].available_capacity > 0) {
           this.availableSlot.push(data[i].sessions[j])
           ids.push(data[i].sessions[j].session_id)
         }
@@ -177,8 +177,8 @@ export class AppComponent implements OnInit {
 
 
   onAudioPlay() {
-    window.navigator.vibrate(200); // vibrate for 200ms
-    var a = window.navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]);
+    window.navigator.vibrate(400); // vibrate for 200ms
+    window.navigator.vibrate([100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100, 30, 100]);
     this.audioPlayerRef.nativeElement.play();
   }
 
