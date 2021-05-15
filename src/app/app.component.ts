@@ -177,6 +177,8 @@ export class AppComponent implements OnInit {
 
 
   onAudioPlay() {
+    window.navigator.vibrate(200); // vibrate for 200ms
+    var a = window.navigator.vibrate([100,30,100,30,100,30,200,30,200,30,200,30,100,30,100,30,100]);
     this.audioPlayerRef.nativeElement.play();
   }
 
