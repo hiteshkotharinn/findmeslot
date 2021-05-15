@@ -19,9 +19,9 @@ export class AppComponent implements OnInit {
   online: boolean = false;
   lastUpdateOn: any;
   mobile: boolean = false;
-  allSessions = [];
+  // allSessions = [];
   allSessionsDetails = [];
-  nextWeekDate: any;
+  // nextWeekDate: any;
   stateList = [];
   districtList = [];
   selectedStateId: number;
@@ -145,6 +145,7 @@ export class AppComponent implements OnInit {
 
   getDistrict(event: any) {
     this.onAudioStop();
+    this.centerData = [];
     this.districtList = [];
     this.selectedDistrictId = null;
     this.allSessionsDetails = [];
