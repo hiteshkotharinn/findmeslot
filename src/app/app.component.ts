@@ -147,8 +147,9 @@ export class AppComponent implements OnInit {
     this.onAudioStop();
     this.districtList = [];
     this.selectedDistrictId = null;
-    this.selectedStateId = event.target.value;
+    this.allSessionsDetails = [];
     this.availableSlot = [];
+    this.selectedStateId = event.target.value;
     this.appService.getDistrictList(this.selectedStateId).subscribe(
       response => {
         if (response) {
